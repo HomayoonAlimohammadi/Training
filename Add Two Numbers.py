@@ -19,6 +19,7 @@ class Solution:
     def addTwoNumbers(self,l1,l2):
         l1_list = []
         l2_list = []
+        l_final = []
         while l1 != None:
             l1_list.append(l1.val)
             l1 = l1.next
