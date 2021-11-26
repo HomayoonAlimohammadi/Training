@@ -3,7 +3,7 @@ import numpy as np
 
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        overall_max = float('-inf')
+        overall_max = (-1)*float('inf')
         max_ending_here = 0
         for num in nums:
             if max_ending_here > 0:
