@@ -10,8 +10,3 @@ class Solution:
             if len(substring) > max_len:
                 max_len = len(substring)
         return max_len
-
-S = Solution()
-string = 'abcabcbb'
-
-print(S.lengthOfLongestSubstring(string))
