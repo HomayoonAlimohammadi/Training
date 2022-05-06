@@ -1,2 +1,3 @@
 # Training
-Code Training play ground
+This Repo is for Training Coding skills 
+- LeetCode Top Inter
