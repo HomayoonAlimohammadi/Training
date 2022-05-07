@@ -1,3 +1,6 @@
+from collections import Counter
+
+
 class Solution1:
 
     def validAnagram(self, s: str, t: str) -> bool:
@@ -53,5 +56,10 @@ class Solution3:
         return True
 
         
+class Solution4:
+
+    def validAnagram(self, s: str, t: str) -> bool:
+
+        return Counter(s) == Counter(t)
 
             

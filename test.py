@@ -1,3 +1,3 @@
-s = list('salam')
-s.remove(';')
-print(s)
+from collections import Counter 
+
+print(Counter('salam'))
