@@ -34,6 +34,16 @@ class AVIVideoExporter(VideoExporter):
         print(f'Exporting video data to {folder}')
 
 
+class BestVideoExporter(VideoExporter):
+    '''Master Quality Video Exporter'''
+
+    def prepare_export(self, video_data):
+        print('Preparing video data to export as Best')
+
+    def do_export(self, folder: pathlib.Path):
+        print(f'Exporting video to {folder}')
+
+
 class AudioExporter(ABC):
     '''Basic representation for Audio exporting codec'''
 
@@ -66,25 +76,78 @@ class MP3AudioExporter(AudioExporter):
         print(f'Exporting audio file to {folder}')
 
 
-def main():
+class BestAudioExporter(AudioExporter):
+    '''Master Quality Audio Exporter'''
 
-    export_quality: str
+    def prepare_export(self, audio_data):
+        print('Preparing audio data to be exported as Best')
+
+    def do_export(self, folder: pathlib.Path):
+        print(f'Exporting audio file to {folder}')
+
+
+class ExporterFactory(ABC):
+    '''Basic representation of exporter factories'''
+
+    @abstractmethod
+    def get_video_exporter(self):
+        '''Returns an instance of video exporter'''
+
+    @abstractmethod
+    def get_audio_exporter(self):
+        '''Returns an instance of audio exporter'''
+
+
+class FastExporter(ExporterFactory):
+    '''Fast and low quality exporters'''
+
+    def get_video_exporter(self) -> VideoExporter:
+        return AVIVideoExporter()
+
+    def get_audio_exporter(self) -> AudioExporter:
+        return MP3AudioExporter()
+
+
+class HighQualityExporter(ExporterFactory):
+    '''High Quality exporters'''
+
+    def get_video_exporter(self) -> VideoExporter:
+        return WMVVideoExporter()
+
+    def get_audio_exporter(self) -> AudioExporter:
+        return WAVAudioExporter()
+
+class MasterQualityExporter(ExporterFactory):
+    '''Lossless Quality exporters'''
+
+    def get_video_exporter(self) -> VideoExporter:
+        return BestVideoExporter()
+
+    def get_audio_exporter(self) -> AudioExporter:
+        return BestAudioExporter()
+
+
+def getExporters() -> ExporterFactory:
+
+    factories = {
+        'low': FastExporter(),
+        'high': HighQualityExporter(),
+        'master': MasterQualityExporter(),
+    }
 
     while True:
         export_quality = input('Quality: ')
-        if export_quality in ['high', 'low']:
-            break
+        if export_quality in factories.keys():
+            return factories[export_quality]
         
-        print('Invalid Quality, Choose "high" or "low"')
+        print('Invalid Quality, Choose "master", "high" or "low"')
 
-    if export_quality == 'high':
-        video_exporter = WMVVideoExporter()
-        audio_exporter = WAVAudioExporter()
 
-    elif export_quality == 'low':
-        video_exporter = AVIVideoExporter()
-        audio_exporter = MP3AudioExporter()
+def main(fac):
 
+    video_exporter = fac.get_video_exporter()
+    audio_exporter = fac.get_audio_exporter()
+    
     video_exporter.prepare_export('video_data')
     audio_exporter.prepare_export('audio_data')
 
@@ -93,7 +156,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    fac = getExporters()
+    main(fac)
 
 
     
