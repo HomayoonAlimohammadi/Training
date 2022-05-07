@@ -1,4 +1,7 @@
-# Leet Code Training 
+# Data Structures
+# Algorithms
+# Design Patterns
 
-In this repo I solve leet code problems!<br/>
+
+In this repo I practice all different kinds of things!<br/>
 Let's git good!
