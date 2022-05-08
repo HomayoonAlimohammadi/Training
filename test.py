@@ -1,3 +1,2 @@
-from collections import Counter 
-
-print(Counter('salam'))
+l = [1]
+print(l[1:])
