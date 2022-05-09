@@ -1,69 +1,74 @@
-# Python Code for object
-# oriented concepts using
-# the abstract factory
-# design pattern
+from abc import ABC, abstractmethod
 
-import random
+class Product(ABC):
 
-class Course_At_GFG:
+    @abstractmethod
+    def cook(self):
+        pass
 
-	""" GeeksforGeeks portal for courses """
+class FettuccineAlfredo(Product):
+    name = "Fettuccine Alfredo"
+    def cook(self):
+        print("Italian main course prepared: "+self.name)
 
-	def __init__(self, courses_factory = None):
-		"""course factory is out abstract factory"""
+class Tiramisu(Product):
+    name = "Tiramisu"
+    def cook(self):
+        print("Italian dessert prepared: "+self.name)
 
-		self.course_factory = courses_factory
+class DuckALOrange(Product):
+    name = "Duck À L'Orange"
+    def cook(self):
+        print("French main course prepared: "+self.name)
 
-	def show_course(self):
+class CremeBrulee(Product):
+    name = "Crème brûlée"
+    def cook(self):
+        print("French dessert prepared: "+self.name)
 
-		"""creates and shows courses using the abstract factory"""
+class Factory(ABC):
 
-		course = self.course_factory()
+	@staticmethod
+	@abstractmethod
+	def get_dish(type_of_meal):
+		pass
 
-		print(f'We have a course named {course}')
-		print(f'its price is {course.Fee()}')
+class ItalianDishesFactory(Factory):
+    def get_dish(type_of_meal):
+        if type_of_meal == "main":
+            return FettuccineAlfredo()
+        if type_of_meal == "dessert":
+            return Tiramisu()
 
+    def create_dessert(self):
+        return Tiramisu()
 
-class DSA:
+class FrenchDishesFactory(Factory):
+    def get_dish(type_of_meal):
+        if type_of_meal == "main":
+            return DuckALOrange()
 
-	"""Class for Data Structure and Algorithms"""
+        if type_of_meal == "dessert":
+            return CremeBrulee()
 
-	def Fee(self):
-		return 11000
-
-	def __str__(self):
-		return "DSA"
-
-class STL:
-
-	"""Class for Standard Template Library"""
-
-	def Fee(self):
-		return 8000
-
-	def __str__(self):
-		return "STL"
-
-class SDE:
-
-	"""Class for Software Development Engineer"""
-
-	def Fee(self):
-		return 15000
-
-	def __str__(self):
-		return 'SDE'
-
-def random_course():
-
-	"""A random class for choosing the course"""
-
-	return random.choice([SDE, STL, DSA])()
+class FactoryProducer:
+    def get_factory(self, type_of_factory):
+        if type_of_factory == "italian":
+            return ItalianDishesFactory
+        if type_of_factory == "french":
+            return FrenchDishesFactory
 
 
-if __name__ == "__main__":
+fp = FactoryProducer()
 
-	course = Course_At_GFG(random_course)
+fac = fp.get_factory("italian")
+main = fac.get_dish("main")
+main.cook()
+dessert = fac.get_dish("dessert")
+dessert.cook()
 
-	for i in range(5):
-		course.show_course()
+fac1 = fp.get_factory("french")
+main = fac1.get_dish("main")
+main.cook()
+dessert = fac1.get_dish("dessert")
+dessert.cook()
