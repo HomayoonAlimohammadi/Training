@@ -1,11 +1,4 @@
-class A:
+l = [1,2,3]
 
-    def sayName(self, name):
-        print(f'my name is {name}')
-
-    def sayNameNoSelf(name):
-        print(f'my name is {name} NoSelf')
-
-
-A().sayName('homayoon')
-A.sayNameNoSelf('homayoon')
+for i in range(len(l) - 1, 0, -1):
+    print(l[i])
