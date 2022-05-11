@@ -42,6 +42,33 @@ class Charger:
         return self.price
 
 
+def extractValues(box: Box) -> int:
+        
+
+        pack = box.contents.copy()
+        index = 0
+        while index < len(pack):
+
+            current = pack[index]
+            if isinstance(current, Box):
+                for content in current.contents:
+                    pack.append(content)
+                pack = pack[:index] + pack[index+1:]
+
+            else:
+                index += 1
+
+        return pack
+
+def calculateTotalPrice(pack: List):
+    
+    total_price = 0
+    for element in pack:
+        total_price += element.return_price()
+
+    return total_price
+
+
 phone_case_contents = []
 phone_case_contents.append(Phone(200))
 phone_case_box = Box(phone_case_contents)
@@ -52,4 +79,8 @@ big_box_contents.append(Charger(10))
 big_box_contents.append(Earphones(10))
 big_box = Box(big_box_contents)
 
+all_items = extractValues(big_box)
+
 print("Total price: " + str(big_box.return_price()))
+
+print(calculateTotalPrice(all_items))

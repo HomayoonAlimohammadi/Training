@@ -1,4 +1,25 @@
-a = set([1,2,3])
+from abc import ABC, abstractmethod
 
-for i in a:
-    print(i)
+class A(ABC):
+    
+    @abstractmethod
+    def price(self):
+        '''price'''
+
+class C(ABC):
+
+    pass
+
+
+class B(A, C):
+    
+    def price(self):
+        return 100
+
+    def __superclass__(self):
+        return self.__class__.__bases__
+
+ins = B()
+
+print(ins.__superclass__())
+
