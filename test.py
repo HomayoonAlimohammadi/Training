@@ -1,2 +1,5 @@
-s = '123'
-print(str(filter(lambda char: char.isalpha() or char.isdigit(), s)))
+couple = [1,2]
+
+a,b = couple
+
+print(a,b)
