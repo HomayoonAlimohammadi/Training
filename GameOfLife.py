@@ -1,12 +1,17 @@
 from __future__ import annotations
+from time import sleep
 import numpy as np
 from typing import Tuple, List
+import pygame
+import sys
 
 
 class Board:
     
     def __init__(self, x_dim: int, y_dim: int):
         self.__values = np.zeros(x_dim * y_dim).reshape(x_dim, y_dim)
+        self.x_dim = x_dim
+        self.y_dim = y_dim
         self.__temp_values = self.__values.copy()
     
     def getBoard(self) -> List[List[int]]:
@@ -38,8 +43,8 @@ class Board:
 
         n_neighbors = 0
         x, y = cordination
-        x_min, x_max = max(x-1, 0), min(x+1, len(self.__values[0]))
-        y_min, y_max = max(y-1, 0), min(y+1, len(self.__values))
+        x_min, x_max = max(x-1, 0), min(x+1, self.x_dim)
+        y_min, y_max = max(y-1, 0), min(y+1, self.y_dim)
         for i in range(x_min, x_max+1):
             for j in range(y_min, y_max+1):
                 if (i, j) == (x, y):
@@ -68,8 +73,8 @@ class Board:
         '''
         xs, ys = np.where(self.getBoard() > 0)
 
-        x_min, x_max = max(min(xs) - 1, 0), min(max(xs) + 1, 10)
-        y_min, y_max = max(min(ys) - 1, 0), min(max(ys) + 1, 10)
+        x_min, x_max = max(min(xs) - 1, 0), min(max(xs) + 1, self.x_dim)
+        y_min, y_max = max(min(ys) - 1, 0), min(max(ys) + 1, self.y_dim)
 
         for x in range(x_min, x_max+1):
             for y in range(y_min, y_max + 1):
@@ -77,32 +82,85 @@ class Board:
                 n_neighbors = self.calculateNeighbors(cordination)
                 self.handleFuture(cordination, n_neighbors)
 
+        self.updateUI((x_min, x_max), (y_min, y_max))
         self.updateBoard()
+
+    def updateUI(self, xs: Tuple[int, int], ys: Tuple[int, int]) -> None:
+        drawBaseGrid()
+        x_min, x_max = xs
+        y_min, y_max = ys
+        for x in range(x_min, x_max+1):
+            for y in range(y_min, y_max + 1):
+                if self.__values[x, y] == 1:
+                    rect = pygame.Rect(x * blockSize, y * blockSize, 
+                                    blockSize, blockSize)
+                    pygame.draw.rect(SCREEN, WHITE, rect, blockSize)
+
 
 
 def main():
 
-    board = Board(10, 10)
+    board = Board(WINDOW_WIDTH//blockSize, WINDOW_HEIGHT//blockSize)
 
     ### Initial values, Must be implemented in UI.
 
-    for i in range(1, 4):
-        j = 1
-        cordination = (i, j)
-        board._forceSetValues(cordination, 1)
-    
+    # for i in range(3, 5):
+    #     for j in range(3, 5):
+    #         cordination = (i, j)
+    #         board._forceSetValues(cordination, 1)
+    # for i in range(5, 7):
+    #     for j in range(5, 7):
+    #         cordination = (i, j)
+    #         board._forceSetValues(cordination, 1)
+
+    cordination = (2, 4)
+    board._forceSetValues(cordination, 1)
+    cordination = (4, 4)
+    board._forceSetValues(cordination, 1)
+    cordination = (4, 5)
+    board._forceSetValues(cordination, 1)
+    cordination = (3, 5)
+    board._forceSetValues(cordination, 1)
+    cordination = (3, 6)
+    board._forceSetValues(cordination, 1)
+
     ### End of Initial values
+    board.updateUI((0, board.x_dim-2), (0, board.y_dim-2))
+    for i in range(50):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-    print(board)
-    board.iterate()
-    print()
-    print(board)
-    board.iterate()
-    print()
-    print(board)
+        pygame.display.update() 
+        sleep(0.1)
+        board.iterate()   
+
+        
     
 
+def drawBaseGrid():
+    SCREEN.fill(BLACK)
+    for x in range(0, WINDOW_WIDTH, blockSize):
+        for y in range(0, WINDOW_HEIGHT, blockSize):
+            rect = pygame.Rect(x, y, blockSize, blockSize)
+            pygame.draw.rect(SCREEN, WHITE, rect, 1)
+
+
+BLACK = (0, 0, 0)
+WHITE = (200, 200, 200)
+WINDOW_HEIGHT = 400
+WINDOW_WIDTH = 400
+blockSize = 20 #Set the size of the grid block
+
+pygame.init()
+SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+CLOCK = pygame.time.Clock()
+drawBaseGrid()
 
 if __name__ == '__main__':
     main()
+
+
+
         
