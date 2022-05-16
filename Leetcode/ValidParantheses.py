@@ -15,7 +15,7 @@ class Solution1:
             if char in '([{':
                 stack.append(char)
             elif char in ')]}':
-                if stack and stack[-1] != MAP[char]:
+                if not stack or stack[-1] != MAP[char]:
                     return False
                 stack.pop()
 
