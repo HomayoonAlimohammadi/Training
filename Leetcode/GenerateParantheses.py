@@ -13,7 +13,7 @@ class Solution1:
         if num_opening < total_len:
             self.generateParantheses(string+'(', num_opening+1, num_closing, total_len, results)
         
-        if num_closing < total_len and num_closing < num_opening:
+        if num_closing < num_opening:
             self.generateParantheses(string+')', num_opening, num_closing+1, total_len, results)
         
         return results
@@ -52,6 +52,33 @@ class Solution2:
         return results
 
 
+class Solution3:
+
+    def generateParantheses(self, n: int) -> List[str]:
+
+        stack = []
+        results = []
+
+        def backtrack(openNum, closeNum):
+
+            if openNum == closeNum == n:
+                results.append(''.join(stack))
+                return
+
+            if openNum < n:
+                stack.append('(')
+                backtrack(openNum+1, closeNum)
+                stack.pop()
+
+            if closeNum < openNum:
+                stack.append(')')
+                backtrack(openNum, closeNum+1)
+                stack.pop()
+
+        backtrack(0, 0)
+        return results
+
+
 n = 3
 print('Solution 1')
 sol = Solution1()
@@ -62,4 +89,6 @@ print('Solution 2')
 sol = Solution2()
 print(sol.generateParantheses(n))
 
-print(set())
+print('Solution 3')
+sol = Solution3()
+print(sol.generateParantheses(n))
