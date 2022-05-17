@@ -57,12 +57,12 @@ class Solution3:
     def generateParantheses(self, n: int) -> List[str]:
 
         stack = []
-        results = []
+        total = 0
 
         def backtrack(openNum, closeNum):
 
             if openNum == closeNum == n:
-                results.append(''.join(stack))
+                total += 1
                 return
 
             if openNum < n:
@@ -76,7 +76,7 @@ class Solution3:
                 stack.pop()
 
         backtrack(0, 0)
-        return results
+        return total
 
 
 n = 3
