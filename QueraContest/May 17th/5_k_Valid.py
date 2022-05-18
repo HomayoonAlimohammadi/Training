@@ -1,3 +1,6 @@
+import math
+
+
 def k_valid_ineff(n: int, k: int):
 
     results = []
@@ -57,12 +60,29 @@ def k_valid(n, k):
     return len(results)
 
 
-results = []
-t = int(input())
-for i in range(t):
-    n, k = input().split()
-    n, k = int(n), int(k)
-    results.append(k_valid(n, k))
+def main():
+    results = []
+    t = int(input())
+    for i in range(t):
+        n, k = input().split()
+        n, k = int(n), int(k)
+        results.append(k_valid(n, k))
 
-for result in results:
-    print(result)
+    for result in results:
+        print(result)
+
+def second():
+    # results = []
+    t = int(input())
+    for i in range(t):
+        n, k = input().split()
+        n, k = int(n), int(k)
+        ans = math.comb(2*n, n) - math.comb(2*n, n - k - 1)
+        print(ans)
+
+
+if __name__ == '__main__':
+    # main()
+    second()    
+
+
