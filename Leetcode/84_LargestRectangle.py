@@ -73,7 +73,32 @@ class Solution:
         return maxArea
 
 
-sol = Solution()
-heights = [5,5,1,7,1,1,5,2,7,6]
+class Solution2:
+
+    def largestRectangleArea(self, heights: List[int]) -> int:
+
+        stack = []
+        maxArea = 0
+        for i, h in enumerate(heights):
+            # stack.append((i, h))
+            index = None
+            while stack and stack[-1][1] > h:
+                index = stack[-1][0]
+                height = stack[-1][1]
+                area = ((i - index) * height)
+                maxArea = max(maxArea, area)
+                stack.pop()
+            if index is None:
+                index = i
+            stack.append((index, h))
+
+        for i, h in stack:
+            maxArea = max(maxArea, (h * (len(heights) - i)))
+
+        return maxArea
+
+
+sol = Solution2()
+heights = [2,1,5,6,2,3]
 print(sol.largestRectangleArea(heights))
             
