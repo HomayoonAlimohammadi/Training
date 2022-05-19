@@ -1,16 +1,17 @@
-from typing import overload
+from functools import singledispatch
 
-@overload
+@singledispatch
 def f(a: int) -> int:
     return a * 2
 
-@overload
-def f(a: str) -> str:
+@f.register
+def _(a: str) -> str:
     return a * 10
 
-def f(a: float) -> float:
+@f.register(float)
+def _(a: float) -> float:
     return a
 
 
-a = 2.0
-print(f(a))
+for a in [1, 1.0, '1']:
+    print(f'For type: {type(a).__name__}, f returned: {f(a)}')
