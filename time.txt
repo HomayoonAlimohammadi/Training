@@ -1,0 +1,1 @@
+/usr/bin/time -f "Memory used (kB): %M\nUser time (seconds): %U" python path/to/file.py
