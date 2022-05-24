@@ -54,9 +54,43 @@ class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         '''Determine wheter a Tree structure is balanced or not.'''
 
-        nodes = [root]
-        while nodes:
-            pass
+        if root is None:
+            return True
+
+        def process(node):
+            
+            left, right = {
+                'ans': True,
+                'depth': 0
+            }, {
+                'ans': True,
+                'depth': 0
+            }
+            if node.left:
+                left = process(node.left)
+            if node.right:
+                right = process(node.right)
+
+            print(node.val)
+            print('left:', left)
+            print('right:', right)
+            print()
+            
+            if (not left['ans'] or not right['ans']) or \
+                (abs(left['depth'] - right['depth']) > 1):
+                return {
+                    'ans': False,
+                    'depth': None
+                }
+            
+            depth = max(left['depth'], right['depth'])
+            return {
+                'ans': True,
+                'depth': depth + 1
+            }
+
+        result = process(root)
+        return result['ans']
 
 
 def create_tree(values):
@@ -115,10 +149,10 @@ def create_arbitrary_tree(values):
     return root
 
 
-values = [3,9,20,None,None,15,7]
+values = [3]
 # values = sample(range(1, 200), 100)
 root = create_arbitrary_tree(values)
 print(root)
-# print(Solution().isBalanced_search(root))
+print(Solution().isBalanced(root))
                 
                 
