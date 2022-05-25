@@ -45,6 +45,10 @@ class Heap:
                 self.insert(value)
         logging.debug(f'{self.values=}')
 
+    @property
+    def size(self) -> int:
+        return len(self.values)
+
     def insert(self, value: int) -> None:
         '''
         Insert values to the Heap Structure.
