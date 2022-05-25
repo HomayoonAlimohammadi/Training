@@ -1,34 +1,42 @@
 Initializing Heap structure...
 self.strategy='min'
-Inserting 50 to Heap...
+Inserting 50...
+Inserted value=50.
 self.values=[50]
 
-Inserting 98 to Heap...
+Inserting 98...
+Inserted value=98.
 self.values=[50, 98]
 
-Inserting 54 to Heap...
+Inserting 54...
+Inserted value=54.
 self.values=[50, 98, 54]
 
-Inserting 6 to Heap...
+Inserting 6...
 swapped 98, 6
 swapped 50, 6
+Inserted value=6.
 self.values=[6, 50, 54, 98]
 
-Inserting 34 to Heap...
+Inserting 34...
 swapped 50, 34
+Inserted value=34.
 self.values=[6, 34, 54, 98, 50]
 
-Inserting 66 to Heap...
+Inserting 66...
+Inserted value=66.
 self.values=[6, 34, 54, 98, 50, 66]
 
-Inserting 63 to Heap...
+Inserting 63...
+Inserted value=63.
 self.values=[6, 34, 54, 98, 50, 66, 63]
 
 self.values=[6, 34, 54, 98, 50, 66, 63]
-Inserting 2 to Heap...
+Inserting 2...
 swapped 98, 2
 swapped 34, 2
 swapped 6, 2
+Inserted value=2.
 self.values=[2, 6, 54, 34, 50, 66, 63, 98]
 
 removing root node...
@@ -46,3 +54,57 @@ right_child_idx=4: 50
 swap_idx=3
 
 Returning root=2...
+
+Initializing Heap structure...
+self.strategy='max'
+Inserting 50...
+Inserted value=50.
+self.values=[50]
+
+Inserting 98...
+swapped 50, 98
+Inserted value=98.
+self.values=[98, 50]
+
+Inserting 54...
+Inserted value=54.
+self.values=[98, 50, 54]
+
+Inserting 6...
+Inserted value=6.
+self.values=[98, 50, 54, 6]
+
+Inserting 34...
+Inserted value=34.
+self.values=[98, 50, 54, 6, 34]
+
+Inserting 66...
+swapped 54, 66
+Inserted value=66.
+self.values=[98, 50, 66, 6, 34, 54]
+
+Inserting 63...
+Inserted value=63.
+self.values=[98, 50, 66, 6, 34, 54, 63]
+
+self.values=[98, 50, 66, 6, 34, 54, 63]
+Inserting 2...
+Inserted value=2.
+self.values=[98, 50, 66, 6, 34, 54, 63, 2]
+
+removing root node...
+root=98
+self.values=[2, 50, 66, 6, 34, 54, 63]
+idx=0: 2
+left_child_idx=1: 50
+right_child_idx=2: 66
+swap_idx=2
+
+self.values=[66, 50, 2, 6, 34, 54, 63]
+idx=2: 2
+left_child_idx=5: 54
+right_child_idx=6: 63
+swap_idx=6
+
+Returning root=98...
+

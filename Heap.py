@@ -49,7 +49,7 @@ class Heap:
         '''
         Insert values to the Heap Structure.
         '''
-        logging.debug(f'Inserting {value} to Heap...')
+        logging.debug(f'Inserting {value}...')
         if self.strategy == 'min':
 
             self.values.append(value)
@@ -67,9 +67,24 @@ class Heap:
                     break
 
         elif self.strategy == 'max':
-            logging.error(f'Not Implemented Error for {self.strategy=}')
-            raise NotImplementedError
+            # logging.error(f'Not Implemented Error for {self.strategy=}')
+            # raise NotImplementedError
 
+            self.values.append(value)
+            idx = len(self.values) - 1
+            parent_idx = (idx - 1) // 2 
+
+            while parent_idx >= 0:
+                if self.values[idx] > self.values[parent_idx]:
+                    self.values[idx], self.values[parent_idx] = \
+                        self.values[parent_idx], self.values[idx]
+                    logging.debug(f'swapped {self.values[idx]}, {self.values[parent_idx]}')
+                    idx = parent_idx
+                    parent_idx = (idx - 1) // 2 
+                else:
+                    break
+        
+        logging.debug(f'Inserted {value=}.')
         logging.debug(f'{self.values=}')
         logging.debug('')
 
@@ -122,10 +137,48 @@ class Heap:
                 break
 
         elif self.strategy == 'max':
-            logging.error(f'Not Implemented Error for {self.strategy=}')
-            raise NotImplementedError
+            # logging.error(f'Not Implemented Error for {self.strategy=}')
+            # raise NotImplementedError
+            idx = 0
+            # while there is at least a left child
+            while 2 * idx + 1 < len(self.values):
+                left_child_idx = 2 * idx + 1
+                right_child_idx = None
+                if 2 * idx + 2 < len(self.values):
+                    right_child_idx = 2 * idx + 2
+
+                logging.debug(f'{self.values=}')
+                logging.debug(f'{idx=}: {self.values[idx]}')
+                logging.debug(f'{left_child_idx=}: {self.values[left_child_idx]}')
+                logging.debug(f'{right_child_idx=}: {self.values[right_child_idx]}')
+
+                swap_idx = None
+                if right_child_idx:
+                    if self.values[right_child_idx] > self.values[left_child_idx]:
+                        swap_idx = right_child_idx
+                    else:
+                        swap_idx = left_child_idx
+
+                elif left_child_idx:
+                    swap_idx = left_child_idx
+
+                logging.debug(f'{swap_idx=}')
+                logging.debug('')
+
+                if swap_idx:
+                    if self.values[idx] < self.values[swap_idx]:
+                        self.values[idx], self.values[swap_idx] = \
+                            self.values[swap_idx], self.values[idx]
+                        idx = swap_idx
+                        continue
+                        
+                logging.debug(f'not swapped, {self.values[idx]=}, {self.values[swap_idx]=}')
+                
+                break
+
 
         logging.debug(f'Returning {root=}...')
+        logging.debug('')
         return root
 
     def __str__(self) -> None:
@@ -145,3 +198,11 @@ print(heap)
 print()
 print(heap.remove_root())
 print(heap)       
+print()
+heap = Heap(values, strategy='max')
+print(heap)
+heap.insert(2)
+print(heap)
+print()
+print(heap.remove_root())
+print(heap)  
