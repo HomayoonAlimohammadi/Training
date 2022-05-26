@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import List
+from typing import List, Set
+import heapq
 
 
 class Node:
@@ -8,8 +9,14 @@ class Node:
     '''
     def __init__(self, val: int) -> None:
         self.val = val
-        self.adj = set()
-        self.edges = set()
+        self.adj: Set[Node] = set()
+        self.edges: Set[Edge] = set()
+
+    def get_edge_to(self, dest: Node) -> Edge:
+        for edge in self.edges:
+            if edge.dest == dest:
+                return edge
+        raise ValueError(f'No edge from `{self.val}` to `{dest}` found.')
 
     def __str__(self):
         return f'Node{{val: {self.val}, adj:{self.adj}}}'
@@ -76,6 +83,27 @@ class Graph:
             if node.val == val:
                 return node
         raise ValueError(f'Node with the value of `{val}` does not exist in the graph.')
+
+    def dijkstra(self, source: int) -> List[int]:
+        '''Calculate and return shortest path from a given node to all other nodes.'''
+        visited = set()
+        distances = [(0, source)]
+        for node in self.nodes:
+            val = node.val
+            if val in distances:
+                continue
+            distances.append((float('inf'), val))
+        heapq.heapify(distances)
+        
+        while distances:
+            current_dist, val = heapq.heappop(distances)
+            node = self.get_node_by_value(val)
+            for adj_node in node.adj:
+                result = [d for d in distances if d[1] == adj_node.val][0]
+                adj_dist, _ = result
+                edge = node.get_edge_to(adj_node)
+                if current_dist > adj_dist + edge.weight:
+                    ...
 
     def __str__(self) -> None:
         result = 'Graph: {\n'
