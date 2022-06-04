@@ -20,7 +20,6 @@ class Solution:
             rec[pos] = new
             pos -= 1
 
-            
         return rec
 
 
