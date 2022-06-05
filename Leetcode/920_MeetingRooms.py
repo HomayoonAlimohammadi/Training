@@ -29,13 +29,26 @@ class Solution:
 
         return True
 
+    def can_attemp_meetings_efficient(self, intervals: List[Interval]) -> bool:
+
+        intervals.sort(key=lambda x: x.start)
+
+        for i in range(1, len(intervals)):
+            interval_1 = intervals[i-1]
+            interval_2 = intervals[i]
+
+            if interval_1.end > interval_2.start:
+                return False
+
+        return True
+
 
 intervals = [
     Interval(0, 30), Interval(5, 10), Interval(15, 20)
 ]
-print(Solution().can_attemp_meetings(intervals))
+print(Solution().can_attemp_meetings_efficient(intervals))
 
 intervals = [
     Interval(5, 8), Interval(8, 10)
 ]
-print(Solution().can_attemp_meetings(intervals))
+print(Solution().can_attemp_meetings_efficient(intervals))
