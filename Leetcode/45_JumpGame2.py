@@ -7,7 +7,7 @@ class Solution:
     def canJump(self, nums: List[int]) -> int:
         
         if len(nums) == 1:
-            return 1
+            return 0
 
         rec = [0] * len(nums)
         pos, goal = len(nums) - 2, len(nums) - 1
@@ -16,11 +16,14 @@ class Solution:
             if nums[pos] >= goal - pos:
                 new = 1
             else:
-                new = min(rec[pos+1: pos+nums[pos]+1]) + 1
+                if nums[pos] == 0:
+                    new = float('inf')
+                else:
+                    new = min(rec[pos+1: pos+nums[pos]+1]) + 1
             rec[pos] = new
             pos -= 1
 
-        return rec
+        return rec[0]
 
 
 func = Solution().canJump
