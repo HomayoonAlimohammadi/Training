@@ -4,7 +4,7 @@ import unittest
 
 class Solution:
 
-    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+    def insert_old(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
         
         if len(intervals) == 0:
             return [newInterval]
@@ -61,6 +61,72 @@ class Solution:
         intervals.insert(idx_m, m)
         return intervals
 
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+
+        if len(intervals) == 0:
+            return [newInterval]
+
+        i = 0
+        while i < len(intervals) and intervals[i][0] < newInterval[0]:
+            i += 1
+
+        m = newInterval[:]
+        idx_m = i
+
+        # ghabli dare ya na
+        if idx_m > 0: 
+            b = intervals[i-1]
+            if m[0] >= b[1]:
+                m[1] = max(m[1], b[1])
+                del intervals[i-1]
+            
+        # badi dare ya na
+        if idx_m < len(intervals) - 1:
+            idx_a = i
+            a = intervals[idx_a]
+
+            while m[1] >= a[0] and idx_a < len(intervals)-1:
+                m[1] = max(a[1], m[1])
+                del intervals[idx_a]
+                a = intervals[idx_a]
+
+        if idx_m == 0:
+            pass
+
+    def insert_merge(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+
+        if len(intervals) == 0:
+            return [newInterval]
+
+        i = 0
+        while i < len(intervals) and intervals[i][0] < newInterval[0]:
+            i += 1
+
+        intervals.insert(i, newInterval)
+        intervals = self.merge(intervals)
+        return intervals
+
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+
+        intervals.sort(key = lambda x: x[0])
+
+        n_s = []
+        i = 0
+        while i < len(intervals):
+            inter = intervals[i]
+            while i < len(intervals) - 1 and inter[1] >= intervals[i+1][0]:
+                i += 1
+                inter[1] = max(inter[1], intervals[i][1])
+                
+            n_s.append(inter)
+            i += 1
+
+        return n_s
+
+
+
+        
+            
 
 class TestInsert(unittest.TestCase):
 

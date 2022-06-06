@@ -13,6 +13,7 @@ class Solution:
             inter = intervals[i]
             while i < len(intervals) - 1 and inter[1] >= intervals[i+1][0]:
                 i += 1
+                inter[1] = max(inter[1], intervals[i][1])
                 
             n_s.append(inter)
             i += 1
@@ -22,4 +23,5 @@ class Solution:
 
 func = Solution().merge
 intervals = [[1,3],[2,6],[8,10],[15,18]]
+intervals = [[1, 3], [2, 5], [6, 9]]
 print(func(intervals))
