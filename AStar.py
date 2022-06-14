@@ -24,7 +24,7 @@ class Node:
         self.adj_nodes = adj_nodes 
         self.coord = coord 
     
-    def add_adj(self, *args: List[Tuple(Union[Node, int])]):
+    def add_adj(self, *args: List[Tuple[Node]]):
         for node, dist in args:
             if not isinstance(node, Node):
                 raise ValueError('Only nodes can be added to adjacency list.')
