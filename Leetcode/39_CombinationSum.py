@@ -1,8 +1,7 @@
-from typing import List, Dict
-from collections import Counter
+from typing import List
 
 
-def combination_sum(nums: List[int], target: int) -> List[List[int]]:
+def combination_sum(candidates: List[int], target: int) -> List[List[int]]:
     """
     Calculate all unique combinations that add up to the target.
     A combination is unique if no other combination has the same frequency
@@ -10,30 +9,31 @@ def combination_sum(nums: List[int], target: int) -> List[List[int]]:
     """
 
     results: List[List[int]] = []
-    results_counter: List[Dict[int, int]] = []
-    nums.sort()
+    candidates.sort()
 
-    def find_combination(combination: List[int], comb_sum: int) -> None:
+    def find_combination(
+        nums: List[int], combination: List[int], comb_sum: int
+    ) -> None:
 
         if comb_sum == target:
-            if Counter(combination) not in results_counter:
-                results.append(combination.copy())
-                results_counter.append(Counter(combination))
+            results.append(combination.copy())
             return
 
-        if comb_sum < target:
-            for num in nums:
-                if comb_sum + num <= target:
-                    combination.append(num)
-                    find_combination(combination, comb_sum + num)
-                    combination.pop()
-                else:
-                    break
+        org_combination = combination.copy()
+        org_sum = comb_sum
+        for i, num in enumerate(nums):
+            while comb_sum + num <= target:
+                combination.append(num)
+                comb_sum += num
+                find_combination(nums[i + 1 :], combination.copy(), comb_sum)
 
-    find_combination([], 0)
+            combination = org_combination.copy()
+            comb_sum = org_sum
+
+    find_combination(candidates, [], 0)
     return results
 
 
-NUMS = [100, 200, 4, 12]
-TARGET = 400
-combination_sum(NUMS, TARGET)
+NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+TARGET = 9
+print(combination_sum(NUMS, TARGET))
