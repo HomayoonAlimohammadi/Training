@@ -19,7 +19,7 @@ class XORLinkedList:
 
         self.tail.both = 0
 
-    def get(self, index: int) -> Node:
+    def get(self, index: int) -> Node | None:
         """Return a `Node` at the given index."""
         pass
 
