@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List
+from typing import List, Tuple
 
 
 class Node:
@@ -61,8 +61,49 @@ class Graph:
         return False
 
 
-graph = Graph()
-graph.add_edge(1, 2)
-# graph.add_edge(2, 1)
-print(graph)
-print(graph.has_cycle())
+def solution(num_courses: int, prerequisites: List[List[int]]) -> bool:
+    relation = {}
+    for target, req in prerequisites:
+        relation[target] = relation.get(target, []) + [req]
+
+    def has_loop(course: int, seen: Tuple[int] = None) -> bool:
+        if seen is None:
+            seen = tuple()
+        if course in seen:
+            return True
+        seen = list(seen)
+        seen.append(course)
+        seen = tuple(seen)
+        for prereq in relation.get(course, []):
+            if has_loop(prereq, seen):
+                return True
+
+        return False
+
+    for course in relation.keys():
+        if has_loop(course):
+            print(course)
+            return False
+
+    return True
+
+
+# graph = Graph()
+# num_courses =
+# graph.add_edge(1, 2)
+# # graph.add_edge(2, 1)
+# print(graph)
+# print(graph.has_cycle())
+
+num_courses = 3
+prerequisites = [[1, 0], [0, 2], [2, 1]]
+print(solution(num_courses, prerequisites))
+
+
+num_courses = 2
+prerequisites = [[1, 0]]
+print(solution(num_courses, prerequisites))
+
+num_courses = 5
+prerequisites = [[1, 4], [2, 4], [3, 1], [3, 2]]
+print(solution(num_courses, prerequisites))
