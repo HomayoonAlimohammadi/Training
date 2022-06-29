@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Dict
+from typing import Dict, Tuple
 
 
 class Node:
@@ -48,6 +48,23 @@ def check_universal(node: Node, num_universal: int = 0) -> Dict[str, bool | int]
     }
 
 
+def count_universal_subtrees(node: Node) -> Tuple[bool, int]:
+    if node is None:
+        return (True, 0)
+
+    left_node = count_universal_subtrees(node.left)
+    right_node = count_universal_subtrees(node.right)
+
+    this_tree = (
+        left_node[0]
+        and right_node[0]
+        and (node.left is None or node.val == node.left.val)
+        and (node.right is None or node.val == node.right.val)
+    )
+
+    return (this_tree, left_node[1] + right_node[1] + this_tree)
+
+
 def main():
     graph = Node(
         0,
@@ -55,10 +72,11 @@ def main():
         right=Node(1, left=Node(1, left=Node(1), right=Node(1)), right=Node(1)),
     )
 
-    print(graph)
+    # print(graph)
     result = check_universal(graph)
+    result_2 = count_universal_subtrees(graph)
     print(result)
-    print(result['num_universal'])
+    print(result_2)
 
 
 if __name__ == "__main__":
