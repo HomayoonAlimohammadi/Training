@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Tuple
+from typing import List, Set
 
 
 class Node:
@@ -64,26 +64,28 @@ class Graph:
 def solution(num_courses: int, prerequisites: List[List[int]]) -> bool:
     relation = {}
     for target, req in prerequisites:
-        relation[target] = relation.get(target, []) + [req]
+        relation[target] = relation.get(target, []) + [req]  # type: ignore
 
-    def has_loop(course: int, seen: Tuple[int] = None) -> bool:
-        if seen is None:
-            seen = tuple()
-        if course in seen:
+    def has_loop(node: int, visit_set: Set[int]):
+        if node in visit_set:
             return True
-        seen = list(seen)
-        seen.append(course)
-        seen = tuple(seen)
-        for prereq in relation.get(course, []):
-            if has_loop(prereq, seen):
+        if node in total_visit:
+            return False
+        visit_set.add(node)
+        total_visit.add(node)
+        prereq: int
+        for prereq in relation.get(node, []):  # type: ignore
+            if has_loop(prereq, visit_set.copy()):
                 return True
 
         return False
 
-    for course in relation.keys():
-        if has_loop(course):
-            print(course)
-            return False
+    total_visit: Set[int] = set()
+    course: int
+    for course in range(num_courses):
+        if course not in total_visit:
+            if has_loop(course, set()):
+                return False
 
     return True
 
