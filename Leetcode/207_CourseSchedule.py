@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections import defaultdict
 from typing import List, Set
 
 
@@ -86,6 +87,37 @@ def solution(num_courses: int, prerequisites: List[List[int]]) -> bool:
         if course not in total_visit:
             if has_loop(course, set()):
                 return False
+
+    return True
+
+
+def solution_better(num_courses: int, prerequisites: List[List[int]]) -> bool:
+    adj_list = {}
+    for i in range(num_courses):
+        adj_list[i] = []
+
+    for c1, c2 in prerequisites:
+        adj_list[c1].append(c2)
+
+    visited = set()
+
+    def dfs(course):
+        if len(adj_list[course]) == 0:
+            return True
+        if course in visited:
+            return False
+
+        visited.add(course)
+        for nei in adj_list[course]:
+            if dfs(nei) == False:
+                return False
+        visited.remove(course)
+        adj_list[course] = []
+        return True
+
+    for i in adj_list:
+        if dfs(i) == False:
+            return False
 
     return True
 
