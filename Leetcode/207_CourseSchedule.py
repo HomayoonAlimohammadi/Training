@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import List, Tuple
+from collections import defaultdict
+from typing import List, Set
 
 
 class Node:
@@ -64,25 +65,58 @@ class Graph:
 def solution(num_courses: int, prerequisites: List[List[int]]) -> bool:
     relation = {}
     for target, req in prerequisites:
-        relation[target] = relation.get(target, []) + [req]
+        relation[target] = relation.get(target, []) + [req]  # type: ignore
 
-    def has_loop(course: int, seen: Tuple[int] = None) -> bool:
-        if seen is None:
-            seen = tuple()
-        if course in seen:
+    def has_loop(node: int, visit_set: Set[int]):
+        if node in visit_set:
             return True
-        seen = list(seen)
-        seen.append(course)
-        seen = tuple(seen)
-        for prereq in relation.get(course, []):
-            if has_loop(prereq, seen):
+        if node in total_visit:
+            return False
+        visit_set.add(node)
+        total_visit.add(node)
+        prereq: int
+        for prereq in relation.get(node, []):  # type: ignore
+            if has_loop(prereq, visit_set.copy()):
                 return True
 
         return False
 
-    for course in relation.keys():
-        if has_loop(course):
-            print(course)
+    total_visit: Set[int] = set()
+    course: int
+    for course in range(num_courses):
+        if course not in total_visit:
+            if has_loop(course, set()):
+                return False
+
+    return True
+
+
+def solution_better(num_courses: int, prerequisites: List[List[int]]) -> bool:
+    adj_list = {}
+    for i in range(num_courses):
+        adj_list[i] = []
+
+    for c1, c2 in prerequisites:
+        adj_list[c1].append(c2)
+
+    visited = set()
+
+    def dfs(course):
+        if len(adj_list[course]) == 0:
+            return True
+        if course in visited:
+            return False
+
+        visited.add(course)
+        for nei in adj_list[course]:
+            if dfs(nei) == False:
+                return False
+        visited.remove(course)
+        adj_list[course] = []
+        return True
+
+    for i in adj_list:
+        if dfs(i) == False:
             return False
 
     return True
