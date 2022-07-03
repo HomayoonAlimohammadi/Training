@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 
 def solution(edges: List[List[int]]) -> List[int]:
@@ -12,11 +12,10 @@ def solution(edges: List[List[int]]) -> List[int]:
         graph[vert_2] = graph.get(vert_2, []) + [vert_1]
 
     visited = []
-    print(graph)
 
-    def has_loop(node: int, prev_node: int | None = None) -> bool:
+    def has_loop(node: int, prev_node: Union[int, None] = None) -> bool:
         """Return if `node` is part of a loop."""
-        if not graph.get(node, []):
+        if len(graph.get(node, [])) == 0:
             return False
         if node in visited:
             return True
@@ -34,7 +33,6 @@ def solution(edges: List[List[int]]) -> List[int]:
 
     for node in graph:
         if has_loop(node):
-            print(f"found loop: {visited}")
             for vert_1, vert_2 in reversed(edges):
                 if vert_1 in visited and vert_2 in visited:
                     return [vert_1, vert_2]
@@ -42,12 +40,35 @@ def solution(edges: List[List[int]]) -> List[int]:
     return visited
 
 
+def solution_2(edges: List[List[int]]) -> List[int]:
+    def is_connected(u: int, v: int, prev_node: Union[int, None] = None) -> bool:
+        if u not in seen:
+            if u == v:
+                return True
+            seen.add(u)
+            for adj_node in graph[u]:
+                if adj_node != prev_node and is_connected(adj_node, v):
+                    return True
+        return False
+
+    graph = {}
+    for u, v in edges:
+        seen = set()
+        if graph.get(u) and graph.get(v) and is_connected(u, v):
+            return [u, v]
+        graph[u] = graph.get(u, []) + [v]
+        graph[v] = graph.get(v, []) + [u]
+
+
 edges = [[1, 2], [1, 3], [2, 3]]
 print(solution(edges))
+print(solution_2(edges))
+print()
 
 edges = [[1, 2], [2, 3], [3, 4], [1, 4], [1, 5]]
 print(solution(edges))
-
+print(solution_2(edges))
+print()
 
 edges = [
     [30, 44],
@@ -102,3 +123,4 @@ edges = [
     [17, 43],
 ]
 print(solution(edges))
+print(solution_2(edges))
