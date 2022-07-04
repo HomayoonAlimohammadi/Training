@@ -21,6 +21,19 @@ class Folder:
     def add_sub_dir(self, sub_dir: str | Folder) -> None:
         self._sub_dirs.append(sub_dir)
 
+    def to_path_string(self) -> str:
+        def dfs(dir: Folder | str, n_tabs: int = 0, path: str = "") -> str:
+            if isinstance(dir, str):
+                path += "\n" + n_tabs * "\t" + dir
+                return path
+            path += "\n" + n_tabs * "\t" + dir.name
+            for sub_dir in dir.sub_dirs:
+                path = dfs(sub_dir, n_tabs + 1, path)
+            return path
+
+        path = dfs(self)
+        return path[1:]  # subtract first \n
+
     def __str__(self) -> str:
         result = f"{self.name}/\n"
         for sub in self.sub_dirs:
@@ -75,8 +88,8 @@ def path_parser(path: str) -> Folder | str:
     root = Folder(root_name)
 
     def parse_sub_dirs(root: Folder, child_tabs: int, path: str) -> Tuple[Folder, str]:
-        while "\n" in path:
-            print(repr(path))
+        while path[0] == "\n":
+            org_path = path
             path = path[1:]  # remove \n
             t_count = 0
             while path[t_count] == "\t":
@@ -94,8 +107,7 @@ def path_parser(path: str) -> Folder | str:
 
                 root.sub_dirs += [sub_dir]
             elif t_count < child_tabs:
-                print(f"returning {root=}, {path=}")
-                return root, path
+                return root, org_path
         return root, path
 
     root, _ = parse_sub_dirs(root, 1, path)
@@ -120,8 +132,8 @@ def main():
     path = "dir\n\tsubdir1\n\t\tfile1.txt\n\tsubdir2\n\t\tsubdir3\n\t\t\tfile2.txt"
 
     root = path_parser(path)
-    # print(root)
-    print(root)
+    path = root.to_path_string()
+    print(path)
 
 
 if __name__ == "__main__":
