@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Any, List
+from typing import List, Tuple
 
 
 class Folder:
@@ -11,14 +11,18 @@ class Folder:
         self._sub_dirs = sub_dirs if sub_dirs else []
 
     @property
-    def sub_dir(self) -> List[str, Folder]:
-        return sorted(self._sub_dirs)
+    def sub_dirs(self) -> List[str, Folder]:
+        return self._sub_dirs
+
+    @sub_dirs.setter
+    def sub_dirs(self, value: List[str, Folder]):
+        self._sub_dirs = value
 
     def add_sub_dir(self, sub_dir: str | Folder) -> None:
         self._sub_dirs.append(sub_dir)
 
     def __str__(self) -> str:
-        result = f"{self.name}\n"
+        result = f"{self.name}/\n"
         for sub in self.sub_dirs:
             result += f"\t{sub}\n"
         return result
@@ -57,17 +61,68 @@ class Folder:
         return self.name != other
 
 
-def path_parser(path: str) -> str:
-    parent_dir = None
-    directory = Folder()
-    end_of_file = False
-    while not end_of_file:
-        slash_idx = path.find("\\")
-        if slash_idx == -1:
-            end_of_file = True
-        if end_of_file:
-            sub_dir_name = path
-        else:
-            sub_dir_name = path[:slash_idx]
-        if "." not in sub_dir_name:
-            sub_dir = Folder(name=sub_dir_name, parent=parent_dir)
+def path_parser(path: str) -> Folder | str:
+
+    slash_idx = path.find("\n")
+    if slash_idx == -1:
+        if "." in path:
+            return path
+        return Folder(path)
+    else:
+        root_name = path[:slash_idx]
+
+    path = path[slash_idx:]
+    root = Folder(root_name)
+
+    def parse_sub_dirs(root: Folder, child_tabs: int, path: str) -> Tuple[Folder, str]:
+        while "\n" in path:
+            print(repr(path))
+            path = path[1:]  # remove \n
+            t_count = 0
+            while path[t_count] == "\t":
+                t_count += 1  # count # of \t
+
+            path = path[t_count:]  # trim \t(s)
+            if t_count == child_tabs:  # next is child
+                slash_idx = path.find("\n")
+                sub_dir = path[:slash_idx]
+                path = path[slash_idx:]
+                if "." not in sub_dir:
+                    sub_dir = Folder(sub_dir)
+                    # process sub_dirs and path
+                    sub_dir, path = parse_sub_dirs(sub_dir, child_tabs + 1, path)
+
+                root.sub_dirs += [sub_dir]
+            elif t_count < child_tabs:
+                print(f"returning {root=}, {path=}")
+                return root, path
+        return root, path
+
+    root, _ = parse_sub_dirs(root, 1, path)
+    return root
+
+
+def main():
+    root = Folder("dir")
+    subdir1 = Folder("subdir1")
+    subdir2 = Folder("subdir2")
+    file1 = "file1.txt"
+    subdir3 = Folder("subdir3")
+    file2 = "file2.txt"
+
+    subdir1.add_sub_dir(file1)
+    subdir3.add_sub_dir(file2)
+    subdir2.add_sub_dir(subdir3)
+    root.add_sub_dir(subdir1)
+    root.add_sub_dir(subdir2)
+    root.add_sub_dir(subdir3)
+
+    path = "dir\n\tsubdir1\n\t\tfile1.txt\n\tsubdir2\n\t\tsubdir3\n\t\t\tfile2.txt"
+
+    root = path_parser(path)
+    # print(root)
+    print(root)
+
+
+if __name__ == "__main__":
+    main()
