@@ -31,6 +31,26 @@ def solution(nums: List[int], k: int) -> List[int]:
     return result
 
 
+def solution_better(nums: List[int], k: int) -> List[int]:
+    q = deque()
+    max_values = []
+
+    for i, num in enumerate(nums):
+
+        while q and q[-1] < num:
+            q.pop()
+
+        q.append(num)
+
+        if i >= k and q[0] == nums[i - k]:
+            q.popleft()
+
+        if i >= k - 1:
+            max_values.append(q[0])
+
+    return max_values
+
+
 nums = [10, 5]
 k = 2
 print(solution(nums, k))
