@@ -1,23 +1,36 @@
 from typing import List
+from collections import deque
 
 
 def solution(nums: List[int], k: int) -> List[int]:
-    counter = {}
+    max_list = deque()
+
     for i in range(k):
-        counter[nums[i]] = counter.get(nums[i], 0) + 1
+        if not max_list:
+            max_list.append(nums[i])
+            continue
 
-    max_list = [max(counter.keys())]
+        while max_list and nums[i] > max_list[-1]:
+            max_list.pop()
+
+        max_list.append(nums[i])
+
+    result = [max_list[0]]
+
     for i in range(k, len(nums)):
-        counter[nums[i]] = counter.get(nums[i], 0) + 1
-        counter[nums[i - k]] -= 1
-        if counter[nums[i - k]] == 0:
-            del counter[nums[i - k]]
+        while max_list and nums[i] > max_list[-1]:
+            max_list.pop()
 
-        max_list.append(max(counter.keys()))
+        max_list.append(nums[i])
 
-    return max_list
+        if max_list[0] == nums[i - k]:
+            max_list.popleft()
+
+        result.append(max_list[0])
+
+    return result
 
 
-nums = [10, 5, 2, 7, 8, 7]
-k = 3
+nums = [10, 5]
+k = 2
 print(solution(nums, k))
