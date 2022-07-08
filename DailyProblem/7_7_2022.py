@@ -86,3 +86,15 @@ class LinkedList:
             node = node.next
         result = result[:-2] + "]"
         return result
+
+
+headA = Node(1)
+headA.next = Node(2)
+headA.next.next = Node(3)
+headA.next.next.next = Node(10)
+
+headB = Node(4)
+headB.next = Node(5)
+headB.next.next = Node(6)
+
+print(LinkedList.find_intersection_with_even_better(headA, headB))
