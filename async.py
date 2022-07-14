@@ -43,7 +43,6 @@ async def main():
     results = asyncio.gather(
         asyncio.to_thread(fetch_data), asyncio.to_thread(print_numbers)
     )
-
     print(results)
 
 
