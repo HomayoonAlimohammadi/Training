@@ -9,13 +9,10 @@ def solution(heights: List[int]) -> int:
     while heights:
         ground = heights.pop()
         if ground >= base:
-            # print(f"found heigher ground: {ground}")
             while puddle:
                 hole = puddle.pop()
-                # print(f"filling hole: {hole} --> {base - hole}")
                 max_water += base - hole
             base = ground
-            # print()
         puddle.append(ground)
 
     if not puddle:
@@ -23,7 +20,6 @@ def solution(heights: List[int]) -> int:
 
     heights = puddle.copy()
     base = heights.pop()
-    print(f"reverse heights are: {heights}, and base: {base}")
     puddle = [base]
     while heights:
         ground = heights.pop()
