@@ -1,7 +1,5 @@
 def solution(n: int) -> int:
-    n = '{:032b}'.format(n)
-    print(len(n))
-    print(n)
+    n = "{:032b}".format(n)
     return int(n[::-1], 2)
 
 
