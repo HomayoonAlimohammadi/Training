@@ -36,6 +36,19 @@ def has_cycle(root: ListNode) -> bool:
     return False
 
 
+def has_cycle_efficient(root: ListNode) -> bool:
+    slow, fast = root, root
+    start = True
+    while start or (slow is not fast):
+        start = False
+        try:
+            slow = slow.next
+            fast = fast.next.next
+        except AttributeError as e:
+            return False
+    return True
+
+
 root = ListNode(3)
 node_2 = ListNode(2)
 root.next = node_2
@@ -44,6 +57,7 @@ root.next.next.next = ListNode(4)
 root.next.next.next.next = node_2
 print(root)
 print(has_cycle(root))
+print(has_cycle_efficient(root))
 
 
 root = ListNode(1)
@@ -51,9 +65,12 @@ root.next = node_2
 root.next.next = root
 print(root)
 print(has_cycle(root))
+print(has_cycle_efficient(root))
 
 root = ListNode(1)
 print(root)
 print(has_cycle(root))
+print(has_cycle_efficient(root))
 
 print(has_cycle(None))
+print(has_cycle_efficient(root))
