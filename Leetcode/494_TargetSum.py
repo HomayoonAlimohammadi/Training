@@ -52,19 +52,19 @@ def get_n_permutations_2(nums: list[int], target: int) -> int:
 nums = [1, 1, 1, 1, 1]
 target = 3
 print(get_n_permutations(nums, target))
-# print(get_n_permutations_2(nums, target))
+print(get_n_permutations_2(nums, target))
 print(get_n_permutations_3(nums, target))
 
 
 nums = [1]
 target = 1
 print(get_n_permutations(nums, target))
-# print(get_n_permutations_2(nums, target))
+print(get_n_permutations_2(nums, target))
 print(get_n_permutations_3(nums, target))
 
 
 nums = [1]
 target = 10
 print(get_n_permutations(nums, target))
-# print(get_n_permutations_2(nums, target))
+print(get_n_permutations_2(nums, target))
 print(get_n_permutations_3(nums, target))
