@@ -44,9 +44,14 @@ def get_bottom_records(data):
     df["V2"] = df["V2"] / 1000
     df["V3"] = df["V3"] / 1000
 
+    # Calculate cumulative V2 values per Story
+    cumulative_df = df[["Story", "V2"]].groupby(["Story"]).sum()
+    cumulative_df.rename(columns={"V2": "ShearSum"}, inplace=True)
+
     # Output an excel file
     absolute_path = os.path.join(os.getcwd(), os.path.dirname(__file__))
     df.to_excel(os.path.join(absolute_path, "appr_wall.xlsx"))
+    cumulative_df.to_excel(os.path.join(absolute_path, "cumulative.xlsx"))
 
     return df
 
