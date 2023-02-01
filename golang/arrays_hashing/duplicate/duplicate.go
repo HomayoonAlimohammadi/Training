@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+// Given an integer array nums, return true if any value appears at least twice in the array,
+// and return false if every element is distinct.
+//
+// LeetCode: https://leetcode.com/problems/contains-duplicate
 func ContainsDuplicate() {
 	t0 := time.Now()
 	fmt.Println("Running Contains Duplicate...")
@@ -27,10 +31,6 @@ func ContainsDuplicate() {
 	fmt.Printf("Done running the problem in %s seconds.\n", time.Since(t0))
 }
 
-// Given an integer array nums, return true if any value appears at least twice in the array,
-// and return false if every element is distinct.
-//
-// LeetCode: https://leetcode.com/problems/contains-duplicate
 func containsDuplicate(nums []int) bool {
 
 	hashMap := make(map[int]struct{})
