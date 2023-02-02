@@ -5,6 +5,7 @@ import (
 	"training/arrays_hashing/anagram"
 	"training/arrays_hashing/duplicate"
 	"training/arrays_hashing/replace"
+	"training/arrays_hashing/sentence"
 	"training/arrays_hashing/subsequence"
 )
 
@@ -19,7 +20,8 @@ Loop:
 			"1. Contains Duplicate \n" +
 			"2. Valid Anagram \n" +
 			"3. Replace Elements with Greatest Element on Right Side \n" +
-			"4. Is Subsequence")
+			"4. Is Subsequence \n" +
+			"5. Length of Last Word")
 		fmt.Scanln(&q)
 
 		switch q {
@@ -37,6 +39,9 @@ Loop:
 			break Loop
 		case "4":
 			subsequence.Is()
+			break Loop
+		case "5":
+			sentence.LengthOfLastWord()
 			break Loop
 		default:
 			fmt.Println("Invalid problem number, try again...")
