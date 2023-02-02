@@ -19,13 +19,13 @@ func Elements() {
 
 	arr := []int{17, 18, 5, 4, 6, 1}
 	fmt.Println("Input:", arr)
-	ans := elements(arr)
+	ans := replaceElements(arr)
 	fmt.Println("Answer 1:", ans)
 	fmt.Println()
 
 	arr = []int{400}
 	fmt.Println("Input:", arr)
-	ans = elements(arr)
+	ans = replaceElements(arr)
 	fmt.Println("Answer 1:", ans)
 	fmt.Println()
 
@@ -33,7 +33,7 @@ func Elements() {
 	fmt.Println()
 }
 
-func elements(arr []int) []int {
+func replaceElements(arr []int) []int {
 	bigRight := -1
 	for i := len(arr) - 1; i >= 0; i-- {
 		tmp := arr[i]

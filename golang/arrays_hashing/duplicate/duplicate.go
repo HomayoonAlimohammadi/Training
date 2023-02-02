@@ -9,7 +9,7 @@ import (
 // and return false if every element is distinct.
 //
 // LeetCode: https://leetcode.com/problems/contains-duplicate
-func ContainsDuplicate() {
+func Contains() {
 	t0 := time.Now()
 	fmt.Println("Running Contains Duplicate...")
 
