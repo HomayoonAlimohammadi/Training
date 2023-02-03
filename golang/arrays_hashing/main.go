@@ -7,6 +7,7 @@ import (
 	"training/arrays_hashing/replace"
 	"training/arrays_hashing/sentence"
 	"training/arrays_hashing/subsequence"
+	"training/sum"
 )
 
 func main() {
@@ -21,7 +22,8 @@ Loop:
 			"2. Valid Anagram \n" +
 			"3. Replace Elements with Greatest Element on Right Side \n" +
 			"4. Is Subsequence \n" +
-			"5. Length of Last Word")
+			"5. Length of Last Word \n" +
+			"6. Two Sum")
 		fmt.Scanln(&q)
 
 		switch q {
@@ -42,6 +44,9 @@ Loop:
 			break Loop
 		case "5":
 			sentence.LengthOfLastWord()
+			break Loop
+		case "6":
+			sum.Two()
 			break Loop
 		default:
 			fmt.Println("Invalid problem number, try again...")
