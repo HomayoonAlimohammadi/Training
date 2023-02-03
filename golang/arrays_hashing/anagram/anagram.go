@@ -40,6 +40,50 @@ func IsValid() {
 	fmt.Println()
 }
 
+func Group() {
+	t0 := time.Now()
+	fmt.Println()
+	fmt.Println("Running Group Anagrams...")
+	fmt.Println()
+
+	strs := []string{"eat", "tea", "tan", "ate", "nat", "bat"}
+	fmt.Println("Input:", strs)
+	fmt.Println("Answer 1:", groupAnagrams(strs))
+
+	strs = []string{"a"}
+	fmt.Println("Input:", strs)
+	fmt.Println("Answer 1:", groupAnagrams(strs))
+
+	fmt.Printf("Done running the problem in %s seconds.", time.Since(t0))
+	fmt.Println()
+}
+
+func groupAnagrams(strs []string) [][]string {
+
+	anagMap := make(map[string][]string)
+
+	for _, s := range strs {
+		ms := runeMapString(s)
+		anagMap[ms] = append(anagMap[ms], s)
+	}
+
+	anagGroup := [][]string{}
+	for _, strSlice := range anagMap {
+		anagGroup = append(anagGroup, strSlice)
+	}
+
+	return anagGroup
+}
+
+func runeMapString(s string) string {
+	m := make(map[rune]int)
+	for _, v := range s {
+		m[v] = m[v] + 1
+	}
+
+	return fmt.Sprint(m)
+}
+
 func isAnagramImplOne(s string, t string) bool {
 	sMap := make(map[rune]int)
 	tMap := make(map[rune]int)

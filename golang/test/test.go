@@ -6,6 +6,46 @@ import (
 )
 
 func main() {
+
+	// TestSelect()
+	TestMap()
+
+}
+
+func TestMap() {
+	t0 := time.Now()
+	a := "salam"
+	for i := 0; i < 1000000; i++ {
+		_ = runeMap(a)
+	}
+	fmt.Println("runeMap:", time.Since(t0))
+
+	t0 = time.Now()
+	for i := 0; i < 1000000; i++ {
+		_ = charMap(a)
+	}
+	fmt.Println("charMap:", time.Since(t0))
+}
+
+func runeMap(s string) map[rune]int {
+	m := make(map[rune]int)
+	for _, v := range s {
+		m[v] = m[v] + 1
+	}
+
+	return m
+}
+
+func charMap(s string) map[string]int {
+	m := make(map[string]int)
+	for _, v := range s {
+		m[string(v)] = m[string(v)] + 1
+	}
+
+	return m
+}
+
+func TestSelect() {
 	ch1 := make(chan int, 20)
 	ch2 := make(chan int, 20)
 	done := make(chan struct{})
@@ -42,7 +82,6 @@ func main() {
 
 	time.Sleep(2 * time.Second)
 }
-
 func fanOut(ch <-chan int) {
 	for val := range ch {
 		fmt.Println(val)

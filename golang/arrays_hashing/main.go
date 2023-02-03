@@ -23,7 +23,8 @@ Loop:
 			"3. Replace Elements with Greatest Element on Right Side \n" +
 			"4. Is Subsequence \n" +
 			"5. Length of Last Word \n" +
-			"6. Two Sum")
+			"6. Two Sum \n" +
+			"7. Group Anagrams")
 		fmt.Scanln(&q)
 
 		switch q {
@@ -48,6 +49,10 @@ Loop:
 		case "6":
 			sum.Two()
 			break Loop
+		case "7":
+			anagram.Group()
+			break Loop
+
 		default:
 			fmt.Println("Invalid problem number, try again...")
 		}
