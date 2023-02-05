@@ -9,7 +9,7 @@ import (
 	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/sentence"
 	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/slices"
 	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/subsequence"
-	"github.com/homayoonalimohammadi/training/golang/training/sum"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/sum"
 )
 
 func main() {

@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/homayoonalimohammadi/training/golang/training/stack"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/stack"
 )
 
 // Given two strings s and t, return true if t is an anagram of s, and false otherwise.
