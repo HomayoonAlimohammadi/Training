@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"reflect"
 	"time"
+
+	"github.com/homayoonalimohammadi/training/golang/training/stack"
 )
 
 // Given two strings s and t, return true if t is an anagram of s, and false otherwise.
@@ -99,46 +101,10 @@ func isAnagramImplOne(s string, t string) bool {
 	return reflect.DeepEqual(sMap, tMap)
 }
 
-type Node struct {
-	value interface{}
-	prev  *Node
-}
-
-type Stack struct {
-	head   *Node
-	length int
-}
-
-func (s *Stack) Peek() interface{} {
-	if s.length == 0 {
-		return nil
-	}
-
-	return s.head.value
-}
-
-func (s *Stack) Push(value interface{}) {
-	newNode := &Node{value: value, prev: s.head}
-	s.head = newNode
-	s.length++
-}
-
-func (s *Stack) Pop() interface{} {
-	if s.length == 0 {
-		return nil
-	}
-
-	val := s.head.value
-	s.head = s.head.prev
-	s.length--
-
-	return val
-}
-
 // This does not work. Just an experimental thing.
 func isAnagramImplTwo(s string, t string) bool {
 	var i, j int
-	st := &Stack{}
+	st := stack.NewStack()
 
 	for i < len(s) && j < len(t) {
 		if s[i] == t[j] {

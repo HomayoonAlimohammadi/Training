@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-	"training/arrays_hashing/anagram"
-	"training/arrays_hashing/duplicate"
-	"training/arrays_hashing/replace"
-	"training/arrays_hashing/sentence"
-	"training/arrays_hashing/subsequence"
-	"training/sum"
+
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/anagram"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/duplicate"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/replace"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/sentence"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/slices"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/subsequence"
+	"github.com/homayoonalimohammadi/training/golang/training/sum"
 )
 
 func main() {
@@ -24,7 +26,8 @@ Loop:
 			"4. Is Subsequence \n" +
 			"5. Length of Last Word \n" +
 			"6. Two Sum \n" +
-			"7. Group Anagrams")
+			"7. Group Anagrams \n" +
+			"8. Top K Frequent Elements")
 		fmt.Scanln(&q)
 
 		switch q {
@@ -52,7 +55,9 @@ Loop:
 		case "7":
 			anagram.Group()
 			break Loop
-
+		case "8":
+			slices.TopKFrequent()
+			break Loop
 		default:
 			fmt.Println("Invalid problem number, try again...")
 		}
