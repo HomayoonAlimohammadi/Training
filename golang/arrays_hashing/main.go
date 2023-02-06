@@ -27,7 +27,8 @@ Loop:
 			"5. Length of Last Word \n" +
 			"6. Two Sum \n" +
 			"7. Group Anagrams \n" +
-			"8. Top K Frequent Elements")
+			"8. Top K Frequent Elements \n" +
+			"9. Product of Array Except Self")
 		fmt.Scanln(&q)
 
 		switch q {
@@ -57,6 +58,9 @@ Loop:
 			break Loop
 		case "8":
 			slices.TopKFrequent()
+			break Loop
+		case "9":
+			slices.ProductExceptSelf()
 			break Loop
 		default:
 			fmt.Println("Invalid problem number, try again...")
