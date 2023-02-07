@@ -9,6 +9,7 @@ import (
 	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/sentence"
 	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/slices"
 	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/subsequence"
+	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/sudoku"
 	"github.com/homayoonalimohammadi/training/golang/training/arrays_hashing/sum"
 )
 
@@ -28,7 +29,8 @@ Loop:
 			"6. Two Sum \n" +
 			"7. Group Anagrams \n" +
 			"8. Top K Frequent Elements \n" +
-			"9. Product of Array Except Self")
+			"9. Product of Array Except Self \n" +
+			"10. Valid Sudoku")
 		fmt.Scanln(&q)
 
 		switch q {
@@ -61,6 +63,9 @@ Loop:
 			break Loop
 		case "9":
 			slices.ProductExceptSelf()
+			break Loop
+		case "10":
+			sudoku.IsValid()
 			break Loop
 		default:
 			fmt.Println("Invalid problem number, try again...")
